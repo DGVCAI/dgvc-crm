@@ -1,0 +1,45 @@
+import React, { useState, useEffect } from 'react';
+
+export default function App() {
+  const [aiInput, setAiInput] = useState('');
+  const [aiResponse, setAiResponse] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleAiRequest = async () => {
+    if (!aiInput.trim()) return;
+    setLoading(true);
+    setAiResponse('');
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/ask-gpt`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: aiInput }),
+      });
+      const data = await res.json();
+      setAiResponse(data?.message || 'No response received.');
+    } catch (err) {
+      console.error('AI Request Error:', err);
+      setAiResponse('Error contacting AI service.');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="p-6 space-y-4">
+      <h1 className="text-2xl font-bold">DGVC CRM Dashboard</h1>
+      <section>
+        <h2 className="text-lg font-semibold">AI Assistant</h2>
+        <textarea
+          className="w-full border p-2 rounded mb-2"
+          value={aiInput}
+          onChange={(e) => setAiInput(e.target.value)}
+          placeholder="Ask something..."
+        />
+        <button onClick={handleAiRequest} className="bg-blue-700 text-white px-4 py-2 rounded">
+          {loading ? 'Thinking...' : 'Ask GPT'}
+        </button>
+        {aiResponse && <pre className="mt-2 bg-gray-100 p-2 rounded">{aiResponse}</pre>}
+      </section>
+    </div>
+  );
+}
