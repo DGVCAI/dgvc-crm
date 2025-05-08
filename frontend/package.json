@@ -1,5 +1,5 @@
 {
-  "name": "dgvc-frontend",
+  "name": "dgvc-crm-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,10 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "vite": "^4.5.14"
+    "vite": "^6.3.5"
   }
 }
